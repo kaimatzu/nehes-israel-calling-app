@@ -40,10 +40,10 @@ git clone https://github.com/kaimatzu/nehes-israel-calling-app.git
 cd nehes-israel-calling-app
 ```
 
-2. Or, unzip the archive (if installing from Github):
+2. Or, unzip the archive (if installing using the zip archive):
 
 ```bash
-git clone https://github.com/kaimatzu/nehes-israel-calling-app.git
+# Extract the folder first then open your terminal from that location
 cd nehes-israel-calling-app
 ```
 
