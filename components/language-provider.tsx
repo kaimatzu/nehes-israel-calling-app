@@ -22,6 +22,14 @@ const translations: Translations = {
     en: "Bridge calls to your phone",
     he: "גשר שיחות לטלפון שלך",
   },
+  "dialer.title": {
+    en: "Call Dialer",
+    he: "חייגן שיחות",
+  },
+  "dialer.description": {
+    en: "Make calls to leads or enter numbers manually",
+    he: "בצע שיחות ללידים או הזן מספרים באופן ידני",
+  },
   "agent.number": {
     en: "Agent Phone Number",
     he: "מספר טלפון של הסוכן",
@@ -38,6 +46,14 @@ const translations: Translations = {
     en: "Connecting...",
     he: "מתחבר...",
   },
+  "button.tripleCall": {
+    en: "Triple Call Leads",
+    he: "שיחה משולשת למובילים",
+  },
+  "button.callingLeads": {
+    en: "Calling Leads...",
+    he: "מתקשר למובילים...",
+  },
   "history.title": {
     en: "Call History",
     he: "היסטוריית שיחות",
@@ -46,17 +62,13 @@ const translations: Translations = {
     en: "Recent calls bridged to agents",
     he: "שיחות אחרונות שגושרו לסוכנים",
   },
-  "history.viewFull": {
-    en: "View Full History",
-    he: "צפה בהיסטוריה מלאה",
+  "history.tabs.recent": {
+    en: "Recent",
+    he: "אחרונות",
   },
-  "history.fullTitle": {
-    en: "Complete record of calls bridged to agents",
-    he: "רשומה מלאה של שיחות שגושרו לסוכנים",
-  },
-  "history.back": {
-    en: "Back to Calling App",
-    he: "חזרה לאפליקציית השיחות",
+  "history.tabs.all": {
+    en: "All Calls",
+    he: "כל השיחות",
   },
   "table.datetime": {
     en: "Date & Time",
@@ -82,6 +94,38 @@ const translations: Translations = {
     en: "Connected",
     he: "מחובר",
   },
+  "status.busy": {
+    en: "Busy",
+    he: "תפוס",
+  },
+  "status.failed": {
+    en: "Failed",
+    he: "נכשל",
+  },
+  "status.noanswer": {
+    en: "No Answer",
+    he: "אין מענה",
+  },
+  "status.canceled": {
+    en: "Canceled",
+    he: "בוטל",
+  },
+  "status.queued": {
+    en: "Queued",
+    he: "בתור",
+  },
+  "status.initiated": {
+    en: "Initiated",
+    he: "הותחל",
+  },
+  "status.ringing": {
+    en: "Ringing",
+    he: "מצלצל",
+  },
+  "status.unknown": {
+    en: "Unknown",
+    he: "לא ידוע",
+  },
   "status.dropped": {
     en: "Dropped",
     he: "נותק",
@@ -97,6 +141,30 @@ const translations: Translations = {
   "placeholder.customer": {
     en: "Enter customer phone number",
     he: "הזן את מספר הטלפון של הלקוח",
+  },
+  "alert.success": {
+    en: "Success",
+    he: "הצלחה",
+  },
+  "alert.error": {
+    en: "Error",
+    he: "שגיאה",
+  },
+  or: {
+    en: "or",
+    he: "או",
+  },
+  "activeLeads.title": {
+    en: "Active Leads",
+    he: "לידים פעילים",
+  },
+  "activeLeads.description": {
+    en: "Currently calling these leads",
+    he: "מתקשר כרגע ללידים אלה",
+  },
+  "activeLeads.inProgress": {
+    en: "Call in progress",
+    he: "שיחה מתבצעת",
   },
 }
 

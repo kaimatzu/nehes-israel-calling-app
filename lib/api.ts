@@ -25,6 +25,48 @@ export async function fetchCallHistory(): Promise<CallRecord[]> {
   return data;
 }
 
+export interface Lead {
+  id: string;
+  phoneNumber: string;
+  name: string;
+}
+
+export interface TripleCallResult {
+  success: boolean;
+  message: string;
+  leads: Lead[];
+}
+
+export async function tripleCallLeads(agentNumber: string): Promise<TripleCallResult> {
+  // Numbers to dial (you can fetch from CRM/API elsewhere—hardcoded for this example)
+  const leads: Lead[] = [
+    { id: "lead1", phoneNumber: "+972502300180", name: "Ziv" },
+    { id: "lead2", phoneNumber: "+972544831148", name: "Yoni" },
+    { id: "lead3", phoneNumber: "+972543567634", name: "Shay" },
+  ];
+
+  const response = await fetch('https://nehes-israel-system-backend.onrender.com/trigger_target_call', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      agent: agentNumber,
+      numbers: leads.map((lead) => lead.phoneNumber),
+      // numbers: [leads[1].phoneNumber],
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status} - ${await response.text()}`);
+  }
+
+  // Optionally, you can parse backend response if you want more info
+  return {
+    success: true,
+    message: `Successfully initiated calls to ${leads.length} leads`,
+    leads: leads,
+  };
+}
+
 // export async function fetchCallHistory(): Promise<CallRecord[]> {
 //   // Mock data - in production this would fetch from Google Sheets
 //   return [
@@ -79,4 +121,16 @@ export interface CallRecord {
   // status: "connected" | "dropped"
   status: string
   duration: number
+}
+
+export interface Lead {
+  id: string
+  phoneNumber: string
+  name: string
+}
+
+export interface TripleCallResult {
+  success: boolean
+  message: string
+  leads: Lead[]
 }

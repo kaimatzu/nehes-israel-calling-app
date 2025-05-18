@@ -7,7 +7,6 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarRail } fr
 import { Button } from "@/components/ui/button"
 import { fetchCallHistory, type CallRecord } from "@/lib/api"
 import { useLanguage } from "@/components/language-provider"
-import { getStatusIcon, statusKey } from "@/lib/ui"
 
 export function CallHistorySidebar() {
   const [callHistory, setCallHistory] = useState<CallRecord[]>([])
@@ -62,32 +61,16 @@ export function CallHistorySidebar() {
                       {format(new Date(call.timestamp), "MMM d, yyyy h:mm a")}
                     </div>
                   </div>
-                    <div className="flex flex-col items-end">
-                      {(() => {
-                        const key = statusKey(call.status);
-
-                        // Show status icon (green if connected, otherwise mapped icon)
-                        const icon = getStatusIcon(key);
-
-                        // Show duration only if status means 'connected/final'
-                        const isConnected =
-                          key === "completed" ||
-                          key === "in_progress" ||
-                          key === "in-progress";
-                        // Add others if you want: (e.g. "connected"), but with real Twilio statuses above
-
-                        return (
-                          <>
-                            {icon}
-                            {isConnected && !!call.duration && (
-                              <span className="text-xs text-gray-500 dark:text-gray-300">
-                                {call.duration}s
-                              </span>
-                            )}
-                          </>
-                        );
-                      })()}
-                    </div>
+                  <div className="flex flex-col items-end">
+                    {call.status === "connected" ? (
+                      <>
+                        <Phone className="h-4 w-4 text-green-500" />
+                        <span className="text-xs text-gray-500 dark:text-gray-300">{call.duration}s</span>
+                      </>
+                    ) : (
+                      <PhoneOff className="h-4 w-4 text-red-500" />
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
