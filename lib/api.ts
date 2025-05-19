@@ -1,12 +1,14 @@
 // Mock API functions for Twilio integration
 
-export async function bridgeCall(agentNumber: string, customerNumber: string): Promise<void> {
+export async function bridgeCall(agentNumber: string, customerNumbers: string[]): Promise<void> {
+  // console.log(agentNumber)
+  // console.log(customerNumbers)
   const response = await fetch('https://nehes-israel-system-backend.onrender.com/trigger_target_call', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       agent: agentNumber,
-      numbers: [customerNumber]
+      numbers: customerNumbers
     }),
   });
   if (!response.ok) {
