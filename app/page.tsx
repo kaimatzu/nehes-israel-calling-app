@@ -315,8 +315,169 @@ export default function CallingApp() {
               </CardContent>
             </Card>
           </div>
-          {/* ... right column (history, etc.) remains unchanged ... */}
-          {/* keep the rest of your code here for history, etc., unchanged */}
+          {/* Right/Left column - Dashboard */}
+          <div className="lg:w-2/3 space-y-6">
+            {/* Status alerts */}
+            {tripleCallStatus.show && (
+              <Alert
+                className={
+                  tripleCallStatus.success
+                    ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900"
+                    : "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900"
+                }
+              >
+                {tripleCallStatus.success ? (
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                ) : (
+                  <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                )}
+                <AlertTitle
+                  className={
+                    tripleCallStatus.success ? "text-green-800 dark:text-green-400" : "text-red-800 dark:text-red-400"
+                  }
+                >
+                  {tripleCallStatus.success ? t("alert.success") : t("alert.error")}
+                </AlertTitle>
+                <AlertDescription
+                  className={
+                    tripleCallStatus.success ? "text-green-700 dark:text-green-300" : "text-red-700 dark:text-red-300"
+                  }
+                >
+                  {tripleCallStatus.message}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {/* Active leads section */}
+            {activeLeads.length > 0 && (
+              <Card className="dark:border-[#D29D0E]/30 dark:bg-[#122347]/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-xl font-bold text-foreground dark:text-white">
+                    {t("activeLeads.title")}
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground dark:text-gray-300">
+                    {t("activeLeads.description")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {activeLeads.map((lead) => (
+                      <div
+                        key={lead.id}
+                        className="p-3 border rounded-md dark:border-[#D29D0E]/30 bg-background dark:bg-[#122347]/80"
+                      >
+                        <div className="font-medium text-foreground dark:text-[#D29D0E]">{lead.name}</div>
+                        <div className="text-sm text-muted-foreground dark:text-gray-300">{lead.phoneNumber}</div>
+                        <div className="mt-2 flex items-center text-xs text-muted-foreground dark:text-gray-400">
+                          <Clock className={`h-3 w-3 ${iconMarginClass}`} />
+                          <span>{t("activeLeads.inProgress")}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Call history section */}
+            <Card className="dark:border-[#D29D0E]/30 dark:bg-[#122347]/50">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-xl font-bold text-foreground dark:text-white">
+                  {t("history.title")}
+                </CardTitle>
+                <CardDescription className="text-muted-foreground dark:text-gray-300">
+                  {t("history.subtitle")}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="recent" className="w-full">
+                  <TabsList className="mb-4">
+                    <TabsTrigger value="recent">{t("history.tabs.recent")}</TabsTrigger>
+                    <TabsTrigger value="all">{t("history.tabs.all")}</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="recent" className="mt-0">
+                    {isLoadingHistory ? (
+                      <div className="flex justify-center items-center h-40">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#122347] dark:border-[#D29D0E]"></div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {callHistory.slice(0, 5).map((call) => (
+                          <div
+                            key={call.id}
+                            className="p-3 border rounded-md hover:bg-gray-50 transition-colors dark:border-[#D29D0E]/30 dark:hover:bg-[#D29D0E]/10"
+                          >
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <div className="font-medium text-foreground dark:text-[#D29D0E]">
+                                  {call.customerNumber}
+                                </div>
+                                <div className="text-sm text-muted-foreground dark:text-gray-300">
+                                  {t("table.agent")}: {call.agentNumber}
+                                </div>
+                                <div className="text-xs text-muted-foreground/70 dark:text-gray-400">
+                                  {format(new Date(call.timestamp), "MMM d, yyyy h:mm a")}
+                                </div>
+                              </div>
+                              <div className="flex flex-col items-end">
+                                {renderStatusWithIcon(call.status)}
+                                {call.duration > 0 && (
+                                  <span className="text-xs text-muted-foreground dark:text-gray-300">
+                                    {call.duration}s
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </TabsContent>
+
+                  <TabsContent value="all" className="mt-0">
+                    {isLoadingHistory ? (
+                      <div className="flex justify-center items-center h-40">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#122347] dark:border-[#D29D0E]"></div>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                          <thead>
+                            <tr className="bg-[#122347] text-white dark:bg-[#D29D0E] dark:text-[#122347]">
+                              <th className="p-3 text-left">{t("table.datetime")}</th>
+                              <th className="p-3 text-left">{t("table.customer")}</th>
+                              <th className="p-3 text-left">{t("table.agent")}</th>
+                              <th className="p-3 text-left">{t("table.status")}</th>
+                              <th className="p-3 text-left">{t("table.duration")}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {callHistory.map((call) => (
+                              <tr
+                                key={call.id}
+                                className="border-b hover:bg-gray-50 dark:border-[#D29D0E]/30 dark:hover:bg-[#D29D0E]/10"
+                              >
+                                <td className="p-3 dark:text-white">
+                                  {format(new Date(call.timestamp), "MMM d, yyyy h:mm a")}
+                                </td>
+                                <td className="p-3 dark:text-white">{call.customerNumber}</td>
+                                <td className="p-3 dark:text-white">{call.agentNumber}</td>
+                                <td className="p-3">{renderStatusWithIcon(call.status)}</td>
+                                <td className="p-3 dark:text-white">
+                                  {call.duration > 0 ? `${call.duration} seconds` : "N/A"}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
