@@ -169,6 +169,29 @@ export default function CallingApp() {
     }
   }
 
+  const loadCallHistory = async () => {
+    try {
+      const history = await fetchCallHistory()
+      setCallHistory(history)
+    } catch (error) {
+      console.error("Failed to load call history:", error)
+    } finally {
+      setIsLoadingHistory(false)
+    }
+  }
+
+  useEffect(() => {
+    // Initial load on mount
+    loadCallHistory()
+
+    // Set up interval to reload every 10 seconds (10,000 ms)
+    const interval = setInterval(() => {
+      loadCallHistory()
+    }, 10000)
+
+    return () => clearInterval(interval) // cleanup when component unmounts
+  }, [])
+  
   // Icon/class helpers
   const iconMarginClass = dir === "rtl" ? "ml-1" : "mr-1"
   const phoneIconClass = dir === "rtl" ? "ml-2 h-4 w-4" : "mr-2 h-4 w-4"
